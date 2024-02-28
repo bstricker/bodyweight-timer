@@ -5,6 +5,7 @@ plugins {
 }
 
 android {
+    namespace = "com.stricker.bodyweighttimer"
     compileSdk = 34
 
     defaultConfig {

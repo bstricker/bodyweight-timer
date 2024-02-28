@@ -1,5 +1,5 @@
 [versions]
-agp = "7.4.2"
+agp = "8.2.2"
 kotlin = "1.9.0"
 
 activity-compose = "1.8.2"
@@ -15,9 +15,6 @@ espresso-core = "3.5.1"
 junit = "4.13.2"
 
 [libraries]
-
-
-
 activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
 compose-material = { group = "androidx.compose.material", name = "material", version.ref = "compose" }
 compose-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "compose" }
