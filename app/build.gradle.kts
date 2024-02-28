@@ -11,7 +11,7 @@ android {
     defaultConfig {
         applicationId = "com.stricker.bodyweighttimer"
         minSdk = 31
-        targetSdk = 31
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
