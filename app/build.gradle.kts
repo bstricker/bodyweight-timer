@@ -54,6 +54,7 @@ dependencies {
 
     implementation(libs.timber)
     implementation(libs.core.ktx)
+    implementation(platform(libs.compose.bom))
     implementation(libs.compose.ui)
     implementation(libs.compose.material)
     implementation(libs.compose.ui.tooling.preview)
@@ -62,6 +63,8 @@ dependencies {
     implementation(libs.activity.compose)
     implementation(libs.compose.material.icons.extended)
     implementation(libs.jetpack.compose.percentage.unit)
+
+    androidTestImplementation(platform(libs.compose.bom))
 
     debugImplementation(libs.ui.tooling)
 
