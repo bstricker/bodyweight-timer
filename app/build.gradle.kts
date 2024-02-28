@@ -61,10 +61,7 @@ dependencies {
     implementation(libs.activity.compose)
     implementation(libs.compose.material.icons.extended)
     implementation(libs.jetpack.compose.percentage.unit)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.espresso.core)
-    androidTestImplementation(libs.ui.test.junit4)
+
     debugImplementation(libs.ui.tooling)
 
 }
