@@ -31,11 +31,11 @@ class TimerViewModel() : ViewModel() {
 
     private var countDownDuration = Duration.ZERO
 
-    fun onIncrSet() {
+    fun onIncrementSet() {
         setCounter += 1
     }
 
-    fun onDecrSet() {
+    fun onDecrementSet() {
         if (setCounter > 1)
             setCounter -= 1
 
@@ -90,8 +90,8 @@ class TimerViewModel() : ViewModel() {
 
     private fun setCounterNextSet() {
         when (ladderMode) {
-            LadderMode.DOWN -> onDecrSet()
-            LadderMode.UP -> onIncrSet()
+            LadderMode.DOWN -> onDecrementSet()
+            LadderMode.UP -> onIncrementSet()
         }
     }
 

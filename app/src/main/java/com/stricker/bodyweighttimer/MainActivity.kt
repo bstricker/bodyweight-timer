@@ -5,27 +5,45 @@ import android.text.format.DateUtils
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.automirrored.filled.TrendingDown
+import androidx.compose.material.icons.automirrored.filled.TrendingUp
+import androidx.compose.material.icons.filled.ArrowDownward
+import androidx.compose.material.icons.filled.ArrowUpward
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.zIndex
 import com.slaviboy.composeunits.dw
 import com.slaviboy.composeunits.initSize
-import com.stricker.bodyweighttimer.ui.theme.BodyweightTimerTheme
+import com.stricker.bodyweighttimer.ui.theme.AppTheme
+import com.stricker.bodyweighttimer.ui.theme.color_icon_timer_down
+import com.stricker.bodyweighttimer.ui.theme.color_icon_timer_up
 import com.stricker.bodyweighttimer.viewmodel.TimerViewModel
 import timber.log.Timber
 import java.time.Duration
@@ -42,7 +60,7 @@ class MainActivity : ComponentActivity() {
         initSize()
 
         setContent {
-            BodyweightTimerTheme {
+            AppTheme {
 
                 MyApp(timerViewModel)
 
@@ -57,28 +75,9 @@ fun MyApp(viewModel: TimerViewModel) {
     // A surface container using the 'background' color from the theme
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colors.background
+        color = MaterialTheme.colorScheme.background
     ) {
         Scaffold(
-            content = {
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center,
-                ) {
-                    SetCounter(
-                        viewModel.setCounter,
-                        onDecrSet = viewModel::onDecrSet,
-                        onIncrSet = viewModel::onIncrSet
-                    )
-                    Timer(viewModel.currentDuration, viewModel.timerState)
-                    Spacer(modifier = Modifier.height(8.dp))
-                    ModeToggle(
-                        viewModel.ladderMode,
-                        onModeClicked = viewModel::ladderMode::set,
-                    )
-                }
-            },
             bottomBar = {
                 ButtonBar(
                     viewModel.timerState,
@@ -88,15 +87,35 @@ fun MyApp(viewModel: TimerViewModel) {
                     onResetSet = viewModel::onResetSet,
                 )
             }
+        ) { innerPadding ->
+            Column(
+                modifier = Modifier
+                    .padding(innerPadding)
+                    .fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+            ) {
+                SetCounter(
+                    viewModel.setCounter,
+                    onDecrSet = viewModel::onDecrementSet,
+                    onIncrSet = viewModel::onIncrementSet
+                )
+                Timer(viewModel.currentDuration, viewModel.timerState)
+                Spacer(modifier = Modifier.height(8.dp))
+                ModeToggle(
+                    viewModel.ladderMode,
+                    onModeClicked = viewModel::ladderMode::set,
+                )
+            }
 
-        )
+        }
     }
 }
 
 @Preview
 @Composable
 fun MyAppPreview() {
-    MyApp(TimerViewModel())
+    MyApp(TimerViewModel().apply { onBeginSet() })
 }
 
 @Composable
@@ -108,8 +127,8 @@ fun SetCounter(setCounter: Int, onDecrSet: () -> Unit, onIncrSet: () -> Unit) {
 
         Text(
             "Set",
-            color = colorResource(id = R.color.purple_200),
-            fontSize = 24.sp
+            style = MaterialTheme.typography.headlineLarge,
+            color = MaterialTheme.colorScheme.secondary,
         )
 
 
@@ -120,7 +139,7 @@ fun SetCounter(setCounter: Int, onDecrSet: () -> Unit, onIncrSet: () -> Unit) {
 
             IconButton(onClick = onDecrSet, enabled = setCounter > 1) {
                 Icon(
-                    imageVector = Icons.Filled.KeyboardArrowLeft,
+                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
                     contentDescription = "Decrease current set"
                 )
             }
@@ -137,7 +156,7 @@ fun SetCounter(setCounter: Int, onDecrSet: () -> Unit, onIncrSet: () -> Unit) {
 
             IconButton(onClick = onIncrSet) {
                 Icon(
-                    imageVector = Icons.Filled.KeyboardArrowRight,
+                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
                     contentDescription = "Increase current set"
                 )
             }
@@ -159,7 +178,9 @@ fun ModeToggle(
 
         Text(
             "Mode",
-            color = colorResource(id = R.color.purple_200),
+            modifier = Modifier.padding(bottom = 8.dp),
+            style = MaterialTheme.typography.titleLarge,
+            color = MaterialTheme.colorScheme.secondary,
         )
 
         Row {
@@ -177,21 +198,21 @@ fun ModeToggle(
                 colors = if (mode == LadderMode.UP) {
                     // selected colors
                     ButtonDefaults.outlinedButtonColors(
-                        backgroundColor = MaterialTheme.colors.primary.copy(
+                        containerColor = MaterialTheme.colorScheme.primary.copy(
                             alpha = 0.1f
-                        ), contentColor = MaterialTheme.colors.primary
+                        ), contentColor = MaterialTheme.colorScheme.primary
                     )
                 } else {
                     // not selected colors
                     ButtonDefaults.outlinedButtonColors(
-                        backgroundColor = MaterialTheme.colors.surface,
-                        contentColor = MaterialTheme.colors.primary
+                        containerColor = MaterialTheme.colorScheme.surface,
+                        contentColor = MaterialTheme.colorScheme.primary
                     )
                 },
 //                enabled = mode != LadderMode.UP,
             ) {
                 Icon(
-                    imageVector = Icons.Filled.TrendingUp,
+                    imageVector = Icons.AutoMirrored.Filled.TrendingUp,
                     contentDescription = "Set training mode UP"
                 )
                 Spacer(Modifier.width(4.dp))
@@ -212,21 +233,21 @@ fun ModeToggle(
                 colors = if (mode == LadderMode.DOWN) {
                     // selected colors
                     ButtonDefaults.outlinedButtonColors(
-                        backgroundColor = MaterialTheme.colors.primary.copy(
+                        containerColor = MaterialTheme.colorScheme.primary.copy(
                             alpha = 0.1f
-                        ), contentColor = MaterialTheme.colors.primary
+                        ), contentColor = MaterialTheme.colorScheme.primary
                     )
                 } else {
                     // not selected colors
                     ButtonDefaults.outlinedButtonColors(
-                        backgroundColor = MaterialTheme.colors.surface,
-                        contentColor = MaterialTheme.colors.primary
+                        containerColor = MaterialTheme.colorScheme.surface,
+                        contentColor = MaterialTheme.colorScheme.primary
                     )
                 },
 //                enabled = mode != LadderMode.DOWN,
             ) {
                 Icon(
-                    imageVector = Icons.Filled.TrendingDown,
+                    imageVector = Icons.AutoMirrored.Filled.TrendingDown,
                     contentDescription = "Set training mode DOWN"
                 )
                 Spacer(Modifier.width(4.dp))
@@ -236,13 +257,6 @@ fun ModeToggle(
     }
 }
 
-data class ButtonItem(
-    val text: String,
-    val icon: ImageVector? = null,
-    val onItemClicked: () -> Unit,
-
-    )
-
 @Composable
 fun Timer(duration: Duration, state: TimerState) {
 
@@ -251,11 +265,12 @@ fun Timer(duration: Duration, state: TimerState) {
     ) {
 
 
-        Spacer(modifier = Modifier.width(20.dp))
-
+        // offset for timer icon (up/down arrow)
+        Spacer(modifier = Modifier.width(30.dp))
 
         Text(
-            text = DateUtils.formatElapsedTime(duration.toSeconds()),
+            text = DateUtils.formatElapsedTime(duration.seconds),
+            modifier = Modifier.padding(start = 8.dp, end = 8.dp),
             fontSize = 50.sp,
             fontWeight = FontWeight.Bold,
         )
@@ -265,20 +280,22 @@ fun Timer(duration: Duration, state: TimerState) {
                 Icon(
                     imageVector = Icons.Filled.ArrowUpward,
                     contentDescription = "Timer mode",
-                    modifier = Modifier.width(20.dp),
-                    tint = Color(0xFFE53935),
+                    modifier = Modifier.size(30.dp),
+                    tint = color_icon_timer_up,
                 )
             }
+
             TimerState.COUNTDOWN -> {
                 Icon(
                     imageVector = Icons.Filled.ArrowDownward,
                     contentDescription = "Countdown mode",
-                    modifier = Modifier.width(20.dp),
-                    tint = Color(0xFF43A047),
+                    modifier = Modifier.size(30.dp),
+                    tint = color_icon_timer_down,
                 )
             }
+
             else -> {
-                Spacer(modifier = Modifier.width(20.dp))
+                Spacer(modifier = Modifier.width(30.dp))
             }
         }
 
@@ -299,7 +316,7 @@ fun ButtonBar(
 ) {
 
     Surface(
-        elevation = 7.dp,
+        shadowElevation = 7.dp,
         modifier = Modifier.fillMaxWidth()
     ) {
         Row(
@@ -314,9 +331,11 @@ fun ButtonBar(
                     Spacer(modifier = Modifier.width(4.dp))
                     WorkoutButton("Reset", onClick = onResetSet, Modifier.weight(0.3f))
                 }
+
                 TimerState.TIMER -> {
                     WorkoutButton("Finish", onClick = onFinishSet, Modifier.weight(0.5f))
                 }
+
                 TimerState.COUNTDOWN -> {
                     WorkoutButton("Stop", onClick = onStop, Modifier.weight(0.5f))
                 }
@@ -334,9 +353,13 @@ fun WorkoutButton(
 ) {
     Button(
         modifier = modifier.height(80.dp),
-        onClick = onClick
+        onClick = onClick,
     ) {
-        Text(text)
+        Text(
+            text,
+            fontWeight = FontWeight.Bold,
+            style = MaterialTheme.typography.titleLarge,
+        )
     }
 
 }
