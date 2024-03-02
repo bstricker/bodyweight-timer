@@ -5,8 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.stricker.bodyweighttimer.LadderMode
-import com.stricker.bodyweighttimer.TimerState
+import com.stricker.bodyweighttimer.ladder.LadderMode
+import com.stricker.bodyweighttimer.common.TimerState
 import kotlinx.coroutines.*
 import timber.log.Timber
 import java.time.Duration
