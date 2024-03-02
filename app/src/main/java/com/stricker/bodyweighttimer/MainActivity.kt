@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
@@ -35,6 +34,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -43,6 +43,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.slaviboy.composeunits.dw
 import com.slaviboy.composeunits.initSize
 import com.stricker.bodyweighttimer.ui.theme.AppTheme
+import com.stricker.bodyweighttimer.ui.theme.Shapes
 import com.stricker.bodyweighttimer.ui.theme.color_icon_timer_down
 import com.stricker.bodyweighttimer.ui.theme.color_icon_timer_up
 import com.stricker.bodyweighttimer.viewmodel.TimerViewModel
@@ -188,12 +189,7 @@ fun ModeToggle(
         Row {
             OutlinedButton(
                 onClick = { onModeClicked(LadderMode.UP) },
-                shape = RoundedCornerShape(
-                    topStart = 8.dp,
-                    topEnd = 0.dp,
-                    bottomStart = 8.dp,
-                    bottomEnd = 0.dp
-                ),
+                shape = Shapes.Button.Toggle.Segmented.Left,
                 modifier = Modifier
                     .weight(0.3f)
                     .height(60.dp),
@@ -223,12 +219,7 @@ fun ModeToggle(
 
             OutlinedButton(
                 onClick = { onModeClicked(LadderMode.DOWN) },
-                shape = RoundedCornerShape(
-                    topStart = 0.dp,
-                    topEnd = 8.dp,
-                    bottomStart = 0.dp,
-                    bottomEnd = 8.dp
-                ),
+                shape = Shapes.Button.Toggle.Segmented.Right,
                 modifier = Modifier
                     .weight(0.3f)
                     .height(60.dp),
@@ -329,9 +320,19 @@ fun ButtonBar(
 
             when (state) {
                 TimerState.STOPPED -> {
-                    WorkoutButton("Begin", onClick = onBeginSet, Modifier.weight(0.7f))
+                    WorkoutButton(
+                        "Begin",
+                        onClick = onBeginSet,
+                        modifier = Modifier.weight(0.7f),
+                        shape = Shapes.Button.Segmented.Left,
+                    )
                     Spacer(modifier = Modifier.width(4.dp))
-                    WorkoutButton("Reset", onClick = onResetSet, Modifier.weight(0.3f))
+                    WorkoutButton(
+                        "Reset",
+                        onClick = onResetSet,
+                        modifier = Modifier.weight(0.3f),
+                        shape = Shapes.Button.Segmented.Right,
+                    )
                 }
 
                 TimerState.TIMER -> {
@@ -352,10 +353,12 @@ fun WorkoutButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    shape: Shape = MaterialTheme.shapes.small,
 ) {
     Button(
         modifier = modifier.height(80.dp),
         onClick = onClick,
+        shape = shape,
     ) {
         Text(
             text,
