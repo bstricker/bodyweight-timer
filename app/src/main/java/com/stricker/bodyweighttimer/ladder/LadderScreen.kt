@@ -48,14 +48,14 @@ fun ButtonBar(
                     WorkoutButton(
                         "Begin",
                         onClick = onBeginSet,
-                        modifier = Modifier.weight(0.7f),
+                        modifier = Modifier.weight(0.65f),
                         shape = Shapes.Button.Segmented.Left,
                     )
                     Spacer(modifier = Modifier.width(4.dp))
                     WorkoutButton(
                         "Reset",
                         onClick = onResetSet,
-                        modifier = Modifier.weight(0.3f),
+                        modifier = Modifier.weight(0.35f),
                         shape = Shapes.Button.Segmented.Right,
                     )
                 }
@@ -104,11 +104,17 @@ fun LadderScreen(viewModel: TimerViewModel) {
                     onDecrSet = viewModel::onDecrementSet,
                     onIncrSet = viewModel::onIncrementSet
                 )
+                Spacer(modifier = Modifier.height(12.dp))
                 Timer(viewModel.currentDuration, viewModel.timerState)
-                Spacer(modifier = Modifier.height(8.dp))
-                ModeToggle(
+                Spacer(modifier = Modifier.height(12.dp))
+                LadderModeToggle(
                     viewModel.ladderMode,
                     onModeClicked = viewModel::ladderMode::set,
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                RestModeToggle(
+                    viewModel.restMode,
+                    onModeClicked = viewModel::restMode::set,
                 )
             }
 

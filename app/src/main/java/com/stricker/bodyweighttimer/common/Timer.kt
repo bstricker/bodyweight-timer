@@ -35,7 +35,7 @@ fun Timer(duration: Duration, state: TimerState) {
         Text(
             text = DateUtils.formatElapsedTime(duration.seconds),
             modifier = Modifier.padding(start = 8.dp, end = 8.dp),
-            fontSize = 50.sp,
+            fontSize = 72.sp,
             fontWeight = FontWeight.Bold,
         )
 
