@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.stricker.bodyweighttimer.ladder.LadderMode
 import com.stricker.bodyweighttimer.common.TimerState
+import com.stricker.bodyweighttimer.ladder.RestMode
 import kotlinx.coroutines.*
 import timber.log.Timber
 import java.time.Duration
@@ -22,6 +23,8 @@ class TimerViewModel() : ViewModel() {
         private set
 
     var ladderMode by mutableStateOf(LadderMode.UP)
+
+    var restMode by mutableStateOf(RestMode.FULL)
 
     var timerState by mutableStateOf(TimerState.STOPPED)
         private set
@@ -67,8 +70,12 @@ class TimerViewModel() : ViewModel() {
 
         viewModelScope.coroutineContext.cancelChildren()
 
+
         countDownDuration = currentDuration
 
+        if (restMode == RestMode.HALF) {
+            countDownDuration = countDownDuration.dividedBy(2)
+        }
 
         viewModelScope.launch {
 
@@ -105,6 +112,8 @@ class TimerViewModel() : ViewModel() {
     fun onResetSet() {
         viewModelScope.coroutineContext.cancelChildren()
         timerState = TimerState.STOPPED
+        ladderMode = LadderMode.UP
+        restMode = RestMode.FULL
         currentDuration = Duration.ZERO
         setCounter = 1
     }

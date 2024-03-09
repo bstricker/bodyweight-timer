@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.TrendingDown
 import androidx.compose.material.icons.automirrored.filled.TrendingUp
+import androidx.compose.material.icons.filled.HourglassBottom
+import androidx.compose.material.icons.filled.HourglassFull
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -21,16 +23,16 @@ import com.slaviboy.composeunits.dw
 import com.stricker.bodyweighttimer.ui.theme.Shapes
 
 @Composable
-fun ModeToggle(
-    mode: LadderMode = LadderMode.UP,
-    onModeClicked: (LadderMode) -> Unit,
+fun RestModeToggle(
+    mode: RestMode = RestMode.FULL,
+    onModeClicked: (RestMode) -> Unit,
 ) {
 
     Column(modifier = Modifier.width(0.7.dw)) {
 
 
         Text(
-            "Mode",
+            "Rest",
             modifier = Modifier.padding(bottom = 8.dp),
             style = MaterialTheme.typography.titleLarge,
             color = MaterialTheme.colorScheme.secondary,
@@ -38,12 +40,12 @@ fun ModeToggle(
 
         Row {
             OutlinedButton(
-                onClick = { onModeClicked(LadderMode.UP) },
+                onClick = { onModeClicked(RestMode.FULL) },
                 shape = Shapes.Button.Toggle.Segmented.Left,
                 modifier = Modifier
                     .weight(0.3f)
                     .height(60.dp),
-                colors = if (mode == LadderMode.UP) {
+                colors = if (mode == RestMode.FULL) {
                     // selected colors
                     ButtonDefaults.outlinedButtonColors(
                         containerColor = MaterialTheme.colorScheme.primary.copy(
@@ -57,23 +59,22 @@ fun ModeToggle(
                         contentColor = MaterialTheme.colorScheme.primary
                     )
                 },
-//                enabled = mode != LadderMode.UP,
             ) {
                 Icon(
-                    imageVector = Icons.AutoMirrored.Filled.TrendingUp,
+                    imageVector = Icons.Filled.HourglassFull,
                     contentDescription = "Set training mode UP"
                 )
                 Spacer(Modifier.width(4.dp))
-                Text(text = "UP")
+                Text(text = "Full")
             }
 
             OutlinedButton(
-                onClick = { onModeClicked(LadderMode.DOWN) },
+                onClick = { onModeClicked(RestMode.HALF) },
                 shape = Shapes.Button.Toggle.Segmented.Right,
                 modifier = Modifier
                     .weight(0.3f)
                     .height(60.dp),
-                colors = if (mode == LadderMode.DOWN) {
+                colors = if (mode == RestMode.HALF) {
                     // selected colors
                     ButtonDefaults.outlinedButtonColors(
                         containerColor = MaterialTheme.colorScheme.primary.copy(
@@ -90,16 +91,16 @@ fun ModeToggle(
 //                enabled = mode != LadderMode.DOWN,
             ) {
                 Icon(
-                    imageVector = Icons.AutoMirrored.Filled.TrendingDown,
+                    imageVector = Icons.Filled.HourglassBottom,
                     contentDescription = "Set training mode DOWN"
                 )
                 Spacer(Modifier.width(4.dp))
-                Text(text = "DOWN")
+                Text(text = "Half")
             }
         }
     }
 }
 
-enum class LadderMode {
-    UP, DOWN
+enum class RestMode {
+    FULL, HALF
 }

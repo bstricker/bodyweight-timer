@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
@@ -37,10 +38,14 @@ fun SetCounter(setCounter: Int, onDecrSet: () -> Unit, onIncrSet: () -> Unit) {
             verticalAlignment = Alignment.CenterVertically
         ) {
 
-            IconButton(onClick = onDecrSet, enabled = setCounter > 1) {
+            IconButton(
+                onClick = onDecrSet, enabled = setCounter > 1,
+                modifier = Modifier.size(60.dp)
+            ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                    contentDescription = "Decrease current set"
+                    contentDescription = "Decrease current set",
+                    Modifier.size(60.dp)
                 )
             }
 
@@ -54,10 +59,14 @@ fun SetCounter(setCounter: Int, onDecrSet: () -> Unit, onIncrSet: () -> Unit) {
 
             Spacer(modifier = Modifier.width(4.dp))
 
-            IconButton(onClick = onIncrSet) {
+            IconButton(
+                onClick = onIncrSet,
+                modifier = Modifier.size(60.dp)
+            ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                    contentDescription = "Increase current set"
+                    contentDescription = "Increase current set",
+                    Modifier.size(60.dp)
                 )
             }
 
